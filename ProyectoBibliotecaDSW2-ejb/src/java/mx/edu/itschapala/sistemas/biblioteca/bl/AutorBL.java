@@ -18,7 +18,6 @@ import mx.edu.itschapala.sistemas.biblioteca.modelo.Autor;
  */
 @Stateless
 public class AutorBL implements AutorBLLocal {
-    
     @EJB
     private AutorDaoLocal autorDao;
 
