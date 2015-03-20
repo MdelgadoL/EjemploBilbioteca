@@ -7,9 +7,7 @@
 package mx.edu.itschapala.sistemas.biblioteca.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,12 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -69,10 +65,6 @@ public class Libro implements Serializable {
     @Lob
     @Column(name = "imagen")
     private byte[] imagen;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLibro")
-    private List<LibroCategoria> libroCategoriaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLibro")
-    private List<AutorLibro> autorLibroList;
 
     public Libro() {
     }
@@ -144,24 +136,6 @@ public class Libro implements Serializable {
         this.imagen = imagen;
     }
 
-    @XmlTransient
-    public List<LibroCategoria> getLibroCategoriaList() {
-        return libroCategoriaList;
-    }
-
-    public void setLibroCategoriaList(List<LibroCategoria> libroCategoriaList) {
-        this.libroCategoriaList = libroCategoriaList;
-    }
-
-    @XmlTransient
-    public List<AutorLibro> getAutorLibroList() {
-        return autorLibroList;
-    }
-
-    public void setAutorLibroList(List<AutorLibro> autorLibroList) {
-        this.autorLibroList = autorLibroList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -184,7 +158,7 @@ public class Libro implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.edu.itschapala.sistemas.biblioteca.Libro[ id=" + id + " ]";
+        return "mx.edu.itschapala.sistemas.biblioteca.modelo.Libro[ id=" + id + " ]";
     }
     
 }

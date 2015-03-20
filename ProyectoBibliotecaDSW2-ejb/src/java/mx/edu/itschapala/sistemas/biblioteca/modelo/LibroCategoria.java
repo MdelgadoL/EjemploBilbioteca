@@ -13,11 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "LibroCategoria.findAll", query = "SELECT l FROM LibroCategoria l"),
-    @NamedQuery(name = "LibroCategoria.findById", query = "SELECT l FROM LibroCategoria l WHERE l.id = :id")})
+    @NamedQuery(name = "LibroCategoria.findById", query = "SELECT l FROM LibroCategoria l WHERE l.id = :id"),
+    @NamedQuery(name = "LibroCategoria.findByIdCategoria", query = "SELECT l FROM LibroCategoria l WHERE l.idCategoria = :idCategoria"),
+    @NamedQuery(name = "LibroCategoria.findByIdLibro", query = "SELECT l FROM LibroCategoria l WHERE l.idLibro = :idLibro")})
 public class LibroCategoria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,18 +38,26 @@ public class LibroCategoria implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "idCategoria", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Categoria idCategoria;
-    @JoinColumn(name = "idLibro", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Libro idLibro;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "idCategoria")
+    private int idCategoria;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "idLibro")
+    private int idLibro;
 
     public LibroCategoria() {
     }
 
     public LibroCategoria(Integer id) {
         this.id = id;
+    }
+
+    public LibroCategoria(Integer id, int idCategoria, int idLibro) {
+        this.id = id;
+        this.idCategoria = idCategoria;
+        this.idLibro = idLibro;
     }
 
     public Integer getId() {
@@ -59,19 +68,19 @@ public class LibroCategoria implements Serializable {
         this.id = id;
     }
 
-    public Categoria getIdCategoria() {
+    public int getIdCategoria() {
         return idCategoria;
     }
 
-    public void setIdCategoria(Categoria idCategoria) {
+    public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
 
-    public Libro getIdLibro() {
+    public int getIdLibro() {
         return idLibro;
     }
 
-    public void setIdLibro(Libro idLibro) {
+    public void setIdLibro(int idLibro) {
         this.idLibro = idLibro;
     }
 
@@ -97,7 +106,7 @@ public class LibroCategoria implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.edu.itschapala.sistemas.biblioteca.LibroCategoria[ id=" + id + " ]";
+        return "mx.edu.itschapala.sistemas.biblioteca.modelo.LibroCategoria[ id=" + id + " ]";
     }
     
 }

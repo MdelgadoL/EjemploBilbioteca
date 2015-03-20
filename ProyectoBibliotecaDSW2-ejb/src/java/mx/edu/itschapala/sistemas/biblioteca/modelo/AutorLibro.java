@@ -13,11 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,7 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AutorLibro.findAll", query = "SELECT a FROM AutorLibro a"),
-    @NamedQuery(name = "AutorLibro.findById", query = "SELECT a FROM AutorLibro a WHERE a.id = :id")})
+    @NamedQuery(name = "AutorLibro.findById", query = "SELECT a FROM AutorLibro a WHERE a.id = :id"),
+    @NamedQuery(name = "AutorLibro.findByIdAutor", query = "SELECT a FROM AutorLibro a WHERE a.idAutor = :idAutor"),
+    @NamedQuery(name = "AutorLibro.findByIdLibro", query = "SELECT a FROM AutorLibro a WHERE a.idLibro = :idLibro")})
 public class AutorLibro implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,18 +38,26 @@ public class AutorLibro implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "idAutor", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Autor idAutor;
-    @JoinColumn(name = "idLibro", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Libro idLibro;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "idAutor")
+    private int idAutor;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "idLibro")
+    private int idLibro;
 
     public AutorLibro() {
     }
 
     public AutorLibro(Integer id) {
         this.id = id;
+    }
+
+    public AutorLibro(Integer id, int idAutor, int idLibro) {
+        this.id = id;
+        this.idAutor = idAutor;
+        this.idLibro = idLibro;
     }
 
     public Integer getId() {
@@ -59,19 +68,19 @@ public class AutorLibro implements Serializable {
         this.id = id;
     }
 
-    public Autor getIdAutor() {
+    public int getIdAutor() {
         return idAutor;
     }
 
-    public void setIdAutor(Autor idAutor) {
+    public void setIdAutor(int idAutor) {
         this.idAutor = idAutor;
     }
 
-    public Libro getIdLibro() {
+    public int getIdLibro() {
         return idLibro;
     }
 
-    public void setIdLibro(Libro idLibro) {
+    public void setIdLibro(int idLibro) {
         this.idLibro = idLibro;
     }
 
@@ -97,7 +106,7 @@ public class AutorLibro implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.edu.itschapala.sistemas.biblioteca.AutorLibro[ id=" + id + " ]";
+        return "mx.edu.itschapala.sistemas.biblioteca.modelo.AutorLibro[ id=" + id + " ]";
     }
     
 }

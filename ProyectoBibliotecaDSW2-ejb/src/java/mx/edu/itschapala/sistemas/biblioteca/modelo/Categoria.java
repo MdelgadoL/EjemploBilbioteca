@@ -7,9 +7,7 @@
 package mx.edu.itschapala.sistemas.biblioteca.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +15,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,8 +49,6 @@ public class Categoria implements Serializable {
     @Size(min = 1, max = 150)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
-    private List<LibroCategoria> libroCategoriaList;
 
     public Categoria() {
     }
@@ -93,15 +87,6 @@ public class Categoria implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public List<LibroCategoria> getLibroCategoriaList() {
-        return libroCategoriaList;
-    }
-
-    public void setLibroCategoriaList(List<LibroCategoria> libroCategoriaList) {
-        this.libroCategoriaList = libroCategoriaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -124,7 +109,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.edu.itschapala.sistemas.biblioteca.Categoria[ id=" + id + " ]";
+        return "mx.edu.itschapala.sistemas.biblioteca.modelo.Categoria[ id=" + id + " ]";
     }
     
 }

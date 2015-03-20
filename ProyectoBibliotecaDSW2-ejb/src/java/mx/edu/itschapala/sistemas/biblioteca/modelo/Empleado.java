@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -32,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Empleado.findAll", query = "SELECT e FROM Empleado e"),
     @NamedQuery(name = "Empleado.findById", query = "SELECT e FROM Empleado e WHERE e.id = :id"),
+    @NamedQuery(name = "Empleado.findByIdPuesto", query = "SELECT e FROM Empleado e WHERE e.idPuesto = :idPuesto"),
     @NamedQuery(name = "Empleado.findByNombre", query = "SELECT e FROM Empleado e WHERE e.nombre = :nombre"),
     @NamedQuery(name = "Empleado.findByApellidoPaterno", query = "SELECT e FROM Empleado e WHERE e.apellidoPaterno = :apellidoPaterno"),
     @NamedQuery(name = "Empleado.findByTelefono", query = "SELECT e FROM Empleado e WHERE e.telefono = :telefono"),
@@ -50,6 +49,10 @@ public class Empleado implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "idPuesto")
+    private int idPuesto;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -99,9 +102,6 @@ public class Empleado implements Serializable {
     @Size(max = 45)
     @Column(name = "correo")
     private String correo;
-    @JoinColumn(name = "idPuesto", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Puesto idPuesto;
 
     public Empleado() {
     }
@@ -110,8 +110,9 @@ public class Empleado implements Serializable {
         this.id = id;
     }
 
-    public Empleado(Integer id, String nombre, String apellidoPaterno, String telefono, Character sexo, String direccion, String colonia, String ciudad, String estado, int cp) {
+    public Empleado(Integer id, int idPuesto, String nombre, String apellidoPaterno, String telefono, Character sexo, String direccion, String colonia, String ciudad, String estado, int cp) {
         this.id = id;
+        this.idPuesto = idPuesto;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.telefono = telefono;
@@ -129,6 +130,14 @@ public class Empleado implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getIdPuesto() {
+        return idPuesto;
+    }
+
+    public void setIdPuesto(int idPuesto) {
+        this.idPuesto = idPuesto;
     }
 
     public String getNombre() {
@@ -219,14 +228,6 @@ public class Empleado implements Serializable {
         this.correo = correo;
     }
 
-    public Puesto getIdPuesto() {
-        return idPuesto;
-    }
-
-    public void setIdPuesto(Puesto idPuesto) {
-        this.idPuesto = idPuesto;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -249,7 +250,7 @@ public class Empleado implements Serializable {
 
     @Override
     public String toString() {
-        return "mx.edu.itschapala.sistemas.biblioteca.Empleado[ id=" + id + " ]";
+        return "mx.edu.itschapala.sistemas.biblioteca.modelo.Empleado[ id=" + id + " ]";
     }
     
 }
